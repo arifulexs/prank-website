@@ -1,0 +1,38 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Funny Prank</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to the Funniest Site Ever 😎</h1>
+    <input type="text" id="nameInput" placeholder="Enter your name..." />
+    <button id="startBtn">Click Me!</button>
+  </div>
+
+  <div id="prankStage" class="hidden">
+    <div class="overlay-message" id="nameReveal"></div>
+    <div class="errorScreen hidden" id="errorScreen">❌ SYSTEM BREACH DETECTED</div>
+    <div class="cameraCreep hidden" id="cameraCreep">
+      <p>📷 We are watching you...</p>
+      <img id="capturedImage" src="" alt="Captured You" />
+    </div>
+    <div class="typewriter" id="hackingText"></div>
+    <div class="credits hidden" id="credits">
+      <h2>Directed by</h2>
+      <h1>Ariful Islam</h1>
+    </div>
+    <canvas id="confettiCanvas"></canvas>
+  </div>
+
+  <!-- Sounds -->
+  <audio id="fartSound" src="https://www.soundjay.com/human/fart-01.mp3"></audio>
+  <audio id="screamSound" src="https://www.soundjay.com/human/scream-01.mp3"></audio>
+  <audio id="burpSound" src="https://www.soundjay.com/human/burp-3.mp3"></audio>
+</body>
+</html>
