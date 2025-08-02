@@ -1,177 +1,275 @@
-// main.js
+document.addEventListener('DOMContentLoaded', () => {
+    const installButton = document.getElementById('install-button');
+    const mainContainer = document.getElementById('main-container');
+    const terminalContainer = document.getElementById('terminal-container');
+    const terminalOutput = document.getElementById('terminal-output');
+    const buttonsContainer = document.getElementById('buttons-container');
+    const glitchScreen = document.getElementById('glitch-screen');
+    const bsod = document.getElementById('bsod');
+    const fileExplorer = document.getElementById('file-explorer');
+    const explorerContent = document.getElementById('explorer-content');
+    const closeExplorerButton = document.getElementById('close-explorer');
+    const webcamIndicator = document.getElementById('webcam-indicator');
+    const systemRestore = document.getElementById('system-restore');
+    const restoreProgress = document.getElementById('restore-progress');
+    const restoreStatus = document.getElementById('restore-status');
+    const passwordPrompt = document.getElementById('password-prompt');
+    const adminPasswordInput = document.getElementById('admin-password');
+    const submitPasswordButton = document.getElementById('submit-password');
+    const passwordError = document.getElementById('password-error');
+    const firewallBlock = document.getElementById('firewall-block');
+    const firewallOkButton = document.getElementById('firewall-ok');
+    const keyboardLock = document.getElementById('keyboard-lock');
+    const deletePrompt = document.getElementById('delete-prompt');
+    const deleteYesButton = document.getElementById('delete-yes');
+    const deleteNoButton = document.getElementById('delete-no');
+    const rebootScreen = document.getElementById('reboot-screen');
+    const gotcha = document.getElementById('gotcha');
+    const creditsScreen = document.getElementById('credits-screen');
+    const boingSound = document.getElementById('boing-sound');
 
-// Elements
-const container = document.querySelector('.container');
-const nameInput = document.getElementById('nameInput');
-const startBtn = document.getElementById('startBtn');
-const prankStage = document.getElementById('prankStage');
-const nameReveal = document.getElementById('nameReveal');
-const errorScreen = document.getElementById('errorScreen');
-const cameraCreep = document.getElementById('cameraCreep');
-const capturedImage = document.getElementById('capturedImage');
-const hackingText = document.getElementById('hackingText');
-const credits = document.getElementById('credits');
-const confettiCanvas = document.getElementById('confettiCanvas');
-
-const fartSound = document.getElementById('fartSound');
-const screamSound = document.getElementById('screamSound');
-const burpSound = document.getElementById('burpSound');
-
-// Confetti setup
-const ctx = confettiCanvas.getContext('2d');
-let confetti = [];
-function resizeCanvas() {
-  confettiCanvas.width = window.innerWidth;
-  confettiCanvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-class Confetti {
-  constructor() {
-    this.x = Math.random() * confettiCanvas.width;
-    this.y = Math.random() * -confettiCanvas.height;
-    this.size = Math.random() * 8 + 4;
-    this.speed = Math.random() * 3 + 2;
-    this.color = `hsl(${Math.random() * 360}, 100%, 65%)`;
-    this.tilt = Math.random() * 10;
-    this.tiltSpeed = Math.random() * 0.1 + 0.05;
-  }
-  update() {
-    this.y += this.speed;
-    this.tilt += this.tiltSpeed;
-    if (this.y > confettiCanvas.height) {
-      this.y = -this.size;
-      this.x = Math.random() * confettiCanvas.width;
-    }
-  }
-  draw() {
-    ctx.beginPath();
-    ctx.lineWidth = this.size / 2;
-    ctx.strokeStyle = this.color;
-    ctx.moveTo(this.x + this.tilt, this.y);
-    ctx.lineTo(this.x - this.tilt, this.y + this.size);
-    ctx.stroke();
-  }
-}
-
-function startConfetti() {
-  confetti = [];
-  for (let i = 0; i < 150; i++) confetti.push(new Confetti());
-  (function anim() {
-    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-    confetti.forEach(c => {
-      c.update();
-      c.draw();
+    installButton.addEventListener('click', () => {
+        document.body.classList.add('flicker');
+        setTimeout(() => {
+            mainContainer.classList.add('hidden');
+            document.body.classList.remove('flicker');
+            terminalContainer.classList.remove('hidden');
+            startTerminalScan();
+        }, 1500);
     });
-    requestAnimationFrame(anim);
-  })();
-}
 
-// Typewriter effect
-function typeWriter(text, element, speed = 70, callback) {
-  let i = 0;
-  (function type() {
-    if (i < text.length) {
-      element.textContent += text[i++];
-      setTimeout(type, speed);
-    } else if (callback) {
-      callback();
+    function startTerminalScan() {
+        const scanMessages = [
+            'System integrity check initiated...',
+            'Scanning user directories...',
+            'C:\\Users\\...\\Documents\\_secret_plans.doc found.',
+            'C:\\Users\\...\\Downloads\\funny_memes.zip detected.',
+            'C:\\Users\\...\\AppData\\Local\\Temp\\virus_payload.dat uploading...',
+            'Initiating file system corruption...',
+            'Executing self-destruct sequence...'
+        ];
+
+        let i = 0;
+        const scanInterval = setInterval(() => {
+            if (i < scanMessages.length) {
+                terminalOutput.textContent += `\n> ${scanMessages[i]}`;
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                i++;
+            } else {
+                clearInterval(scanInterval);
+                setTimeout(() => {
+                    terminalContainer.classList.add('hidden');
+                    showClickMeButtons();
+                }, 2000);
+            }
+        }, 1000);
     }
-  })();
-}
 
-// Main prank sequence
-startBtn.addEventListener('click', () => {
-  const name = nameInput.value.trim();
-  if (!name) return alert('Please enter your name!');
-  
-  // Hide intro, show prank area
-  container.classList.add('hidden');
-  prankStage.classList.remove('hidden');
-  
-  // 0s: fart + shake
-  fartSound.play();
-  document.body.classList.add('shake');
-  
-  // 2s: reveal name
-  setTimeout(() => {
-    nameReveal.textContent = `You are ${name}!`;
-    nameReveal.classList.add('overlay-message');
-    burpSound.play();
-  }, 2000);
-  
-  // 4s: camera prompt
-  setTimeout(() => {
-    document.body.classList.remove('shake');
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => {
-        // capture first frame
-        const track = stream.getVideoTracks()[0];
-        const imageCapture = new ImageCapture(track);
-        return imageCapture.grabFrame()
-          .then(bitmap => {
-            // draw to canvas and show
-            const cv = document.createElement('canvas');
-            cv.width = bitmap.width;
-            cv.height = bitmap.height;
-            cv.getContext('2d').drawImage(bitmap, 0, 0);
-            capturedImage.src = cv.toDataURL();
-            track.stop();
-          });
-      })
-      .catch(() => {
-        // user denied or error
-      })
-      .finally(() => {
-        cameraCreep.classList.remove('hidden');
-        screamSound.play();
-      });
-  }, 4000);
-  
-  // 11s: error screen
-  setTimeout(() => {
-    cameraCreep.classList.add('hidden');
-    errorScreen.classList.remove('hidden');
-  }, 11000);
-  
-  // 14s: more sounds
-  setTimeout(() => {
-    errorScreen.classList.add('hidden');
-    burpSound.play();
-    screamSound.play();
-  }, 14000);
-  
-  // 17s: hacking text
-  setTimeout(() => {
-    hackingText.classList.remove('hidden');
-    typeWriter(
-      'Hacking your phone...\nDownloading secrets...\nUploading embarrassing data...\n',
-      hackingText,
-      60
-    );
-  }, 17000);
-  
-  // 22s: invert colors
-  setTimeout(() => {
-    document.body.classList.add('invert');
-  }, 22000);
-  
-  // 26s: explosion, blackout
-  setTimeout(() => {
-    burpSound.play();
-    document.body.classList.remove('invert');
-    document.body.style.background = '#000';
-    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-  }, 26000);
-  
-  // 28s: credits roll
-  setTimeout(() => {
-    credits.classList.remove('hidden');
-  }, 28000);
-  
-  // 32s: confetti finale
-  setTimeout(() => {
-    startConfetti();
-  }, 32000);
+    function showClickMeButtons() {
+        buttonsContainer.classList.remove('hidden');
+        const clickMeButtons = document.querySelectorAll('.click-me-button');
+        clickMeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                buttonsContainer.classList.add('hidden');
+                showGlitchScreen();
+            });
+        });
+    }
+
+    function showGlitchScreen() {
+        glitchScreen.classList.remove('hidden');
+
+        const glitchInterval = setInterval(() => {
+            document.body.style.transform = `translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px)`;
+            glitchScreen.style.transform = `translate(${Math.random() * 5 - 2.5}px, ${Math.random() * 5 - 2.5}px)`;
+        }, 50);
+
+        setTimeout(() => {
+            clearInterval(glitchInterval);
+            glitchScreen.classList.add('hidden');
+            showBSOD();
+        }, 3000);
+    }
+
+    function showBSOD() {
+        bsod.classList.remove('hidden');
+        document.addEventListener('keydown', handleBSODKeydown);
+    }
+
+    function handleBSODKeydown() {
+        document.removeEventListener('keydown', handleBSODKeydown);
+        bsod.classList.add('hidden');
+        showFileExplorer();
+    }
+
+    function showFileExplorer() {
+        fileExplorer.classList.remove('hidden');
+        const fakeFiles = [
+            'important_document.txt',
+            'family_photos/',
+            'super_secret_files/',
+            'not_a_virus.exe',
+            'my_bank_details.csv'
+        ];
+        explorerContent.innerHTML = fakeFiles.map(file => `<p>${file}</p>`).join('');
+        closeExplorerButton.addEventListener('click', closeFileExplorer);
+    }
+
+    function closeFileExplorer() {
+        fileExplorer.classList.add('hidden');
+        showWebcamActivation();
+    }
+
+    function showWebcamActivation() {
+        webcamIndicator.classList.remove('hidden');
+        setTimeout(() => {
+            webcamIndicator.classList.add('hidden');
+            showSystemRestore();
+        }, 3000);
+    }
+
+    function showSystemRestore() {
+        systemRestore.classList.remove('hidden');
+        let progress = 0;
+        const restoreInterval = setInterval(() => {
+            progress += 5;
+            restoreProgress.style.width = progress + '%';
+            if (progress < 30) {
+                restoreStatus.textContent = 'Preparing restore points...';
+            } else if (progress < 70) {
+                restoreStatus.textContent = 'Restoring system files...';
+            } else if (progress < 95) {
+                restoreStatus.textContent = 'Finalizing restore...';
+            } else {
+                restoreStatus.textContent = 'Restore complete.';
+                clearInterval(restoreInterval);
+                setTimeout(() => {
+                    systemRestore.classList.add('hidden');
+                    showPasswordPrompt();
+                }, 2000);
+            }
+        }, 200);
+    }
+
+    function showPasswordPrompt() {
+        passwordPrompt.classList.remove('hidden');
+        submitPasswordButton.addEventListener('click', checkPassword);
+        adminPasswordInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    }
+
+    function checkPassword() {
+        const password = adminPasswordInput.value;
+        if (password.length > 0) {
+            passwordPrompt.classList.add('hidden');
+            showFirewallBlock();
+        } else {
+            passwordError.classList.remove('hidden');
+            setTimeout(() => {
+                passwordError.classList.add('hidden');
+            }, 1500);
+        }
+    }
+
+    // New Scenes Logic
+    function showFirewallBlock() {
+        firewallBlock.classList.remove('hidden');
+        firewallOkButton.addEventListener('click', () => {
+            firewallBlock.classList.add('hidden');
+            showScreenRotate();
+        });
+    }
+
+    function showScreenRotate() {
+        document.body.classList.add('rotate-screen');
+        setTimeout(() => {
+            document.body.classList.remove('rotate-screen');
+            showKeyboardLock();
+        }, 2000);
+    }
+
+    function showKeyboardLock() {
+        keyboardLock.classList.remove('hidden');
+        document.addEventListener('keydown', handleKeyboardLock);
+        setTimeout(() => {
+            keyboardLock.classList.add('hidden');
+            document.removeEventListener('keydown', handleKeyboardLock);
+            showDeletePrompt();
+        }, 3000);
+    }
+
+    function handleKeyboardLock(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        keyboardLock.classList.add('shake');
+        setTimeout(() => {
+            keyboardLock.classList.remove('shake');
+        }, 500);
+    }
+
+    function showDeletePrompt() {
+        deletePrompt.classList.remove('hidden');
+        deleteYesButton.addEventListener('click', () => {
+            deletePrompt.classList.add('hidden');
+            showRebootScreen();
+        });
+        deleteNoButton.addEventListener('click', () => {
+            deletePrompt.classList.add('hidden');
+            showRebootScreen();
+        });
+    }
+
+    function showRebootScreen() {
+        rebootScreen.classList.remove('hidden');
+        setTimeout(() => {
+            rebootScreen.classList.add('hidden');
+            showGotcha();
+        }, 4000);
+    }
+
+    function showGotcha() {
+        gotcha.classList.remove('hidden');
+        boingSound.play();
+
+        setTimeout(() => {
+            gotcha.style.opacity = 0;
+            setTimeout(() => {
+                gotcha.classList.add('hidden');
+                showCredits();
+            }, 2000);
+        }, 3000);
+    }
+
+    function showCredits() {
+        creditsScreen.classList.remove('hidden');
+        setTimeout(() => {
+            creditsScreen.style.opacity = 1;
+        }, 100);
+    }
+
+    const styleSheet = document.styleSheets && document.styleSheets.length > 0 ? document.styleSheets[0] : null;
+    if (styleSheet) {
+        styleSheet.insertRule(`
+            .shake {
+                animation: shake 0.5s;
+            }
+        `, styleSheet.cssRules.length);
+
+        styleSheet.insertRule(`
+            @keyframes shake {
+                0% { transform: translate(1px, 1px) rotate(0deg); }
+                10% { transform: translate(-1px, -2px) rotate(-1deg); }
+                20% { transform: translate(-3px, 0px) rotate(1deg); }
+                30% { transform: translate(3px, 2px) rotate(0deg); }
+                40% { transform: translate(1px, -1px) rotate(1deg); }
+                50% { transform: translate(-1px, 2px) rotate(-1deg); }
+                60% { transform: translate(-3px, 1px) rotate(0deg); }
+                70% { transform: translate(3px, 1px) rotate(-1deg); }
+                80% { transform: translate(-1px, -1px) rotate(1deg); }
+            }
+        `, styleSheet.cssRules.length);
+    }
 });
