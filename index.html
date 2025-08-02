@@ -1,38 +1,108 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Funny Prank</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="main.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WARNING: SYSTEM CRITICAL</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome to the Funniest Site Ever 😎</h1>
-    <input type="text" id="nameInput" placeholder="Enter your name..." />
-    <button id="startBtn">Click Me!</button>
-  </div>
 
-  <div id="prankStage" class="hidden">
-    <div class="overlay-message" id="nameReveal"></div>
-    <div class="errorScreen hidden" id="errorScreen">❌ SYSTEM BREACH DETECTED</div>
-    <div class="cameraCreep hidden" id="cameraCreep">
-      <p>📷 We are watching you...</p>
-      <img id="capturedImage" src="" alt="Captured You" />
+    <div class="main-container" id="main-container">
+        <h1>UNAUTHORIZED ACCESS DETECTED</h1>
+        <p>Click "INSTALL VIRUS.EXE" to initiate a system purge and fix the issue.</p>
+        <button id="install-button">INSTALL VIRUS.EXE</button>
     </div>
-    <div class="typewriter" id="hackingText"></div>
-    <div class="credits hidden" id="credits">
-      <h2>Directed by</h2>
-      <h1>Ariful Islam</h1>
-    </div>
-    <canvas id="confettiCanvas"></canvas>
-  </div>
 
-  <!-- Sounds -->
-  <audio id="fartSound" src="https://www.soundjay.com/human/fart-01.mp3"></audio>
-  <audio id="screamSound" src="https://www.soundjay.com/human/scream-01.mp3"></audio>
-  <audio id="burpSound" src="https://www.soundjay.com/human/burp-3.mp3"></audio>
+    <div class="terminal-container hidden" id="terminal-container">
+        <div class="terminal-header">
+            TERMINAL // System-Diagnostics
+        </div>
+        <div class="terminal-content">
+            <pre id="terminal-output"></pre>
+        </div>
+    </div>
+
+    <div class="buttons-container hidden" id="buttons-container">
+        <button class="click-me-button">Click Me!</button>
+        <button class="click-me-button">No, Me!</button>
+        <button class="click-me-button">Pick Me!</button>
+        <button class="click-me-button">I'm the one!</button>
+    </div>
+
+    <div class="glitch-screen hidden" id="glitch-screen">
+        <p>SYSTEM_FAILURE_ERROR.EXE</p>
+    </div>
+
+    <div class="bsod hidden" id="bsod">
+        <p>A fatal exception OE has occurred at 0028:C0011E36 in VDD(01) + 00000000. The current application will be terminated.</p>
+        <p>Click any key to restart your computer. You may lose any unsaved data.</p>
+    </div>
+
+    <div class="file-explorer hidden" id="file-explorer">
+        <div class="explorer-header">Fake File Explorer</div>
+        <div class="explorer-content" id="explorer-content"></div>
+        <button id="close-explorer">Close</button>
+    </div>
+
+    <div class="webcam-indicator hidden" id="webcam-indicator">
+        <div class="webcam-light"></div>
+        <p>Webcam ACTIVATED</p>
+    </div>
+
+    <div class="system-restore hidden" id="system-restore">
+        <h2>System Restore in Progress</h2>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="restore-progress"></div>
+        </div>
+        <p id="restore-status">Preparing restore points...</p>
+    </div>
+
+    <div class="password-prompt hidden" id="password-prompt">
+        <h2>Critical System Error</h2>
+        <p>Enter administrator password to continue:</p>
+        <input type="password" id="admin-password">
+        <button id="submit-password">Submit</button>
+        <p class="error-message hidden" id="password-error">Incorrect password.</p>
+    </div>
+
+    <div class="firewall-block hidden" id="firewall-block">
+        <h1>FIREWALL BREACH DETECTED</h1>
+        <p>All network access has been blocked to prevent data theft.</p>
+        <button id="firewall-ok">OK</button>
+    </div>
+
+    <div class="keyboard-lock hidden" id="keyboard-lock">
+        <h1>KEYBOARD LOCKED</h1>
+        <p>Please use the on-screen keyboard to proceed.</p>
+    </div>
+
+    <div class="delete-prompt hidden" id="delete-prompt">
+        <h2>ATTENTION: UNRECOVERABLE ERROR</h2>
+        <p>Delete critical file: C:\Windows\System32\core.dll ?</p>
+        <div class="delete-buttons">
+            <button id="delete-yes">Yes</button>
+            <button id="delete-no">No</button>
+        </div>
+    </div>
+
+    <div class="reboot-screen hidden" id="reboot-screen">
+        <h1>SYSTEM REBOOTING...</h1>
+        <p>DO NOT POWER OFF</p>
+    </div>
+    <div class="gotcha hidden" id="gotcha">
+        <h1>GOTCHA!</h1>
+        <p>You've been Rick-Rolled by the internet!</p>
+        <p>This was a harmless prank. Your computer is fine. 😂</p>
+    </div>
+
+    <div class="credits-screen hidden" id="credits-screen">
+        <p>A completely unnecessary prank by:</p>
+        <h1>Ariful Islam</h1>
+    </div>
+
+    <audio id="boing-sound" src="https://www.myinstants.com/media/sounds/boing_1.mp3"></audio>
+
+    <script src="script.js"></script>
 </body>
 </html>
